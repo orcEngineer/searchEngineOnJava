@@ -49,12 +49,14 @@
         </createTable>
     </changeSet>
 
-    <!-- Индекс по полю path -->
+    <!-- Индекс по полю path с префиксной длиной (для MySQL) -->
     <changeSet id="3" author="danial">
-        <createIndex indexName="idx_page_path" tableName="page">
-            <column name="path"/>
-        </createIndex>
+        <comment>Создаём индекс по первым 191 символам path — нужно для MySQL, т.к. INDEX на TEXT требует длины префикса</comment>
+        <sql>
+            CREATE INDEX idx_page_path ON page (path(191));
+        </sql>
     </changeSet>
+
 
     <!-- Таблица lemma -->
     <changeSet id="4" author="danial">
