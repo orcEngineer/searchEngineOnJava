@@ -8,9 +8,9 @@ import searchengine.config.SiteConfig;
 import searchengine.config.SitesList;
 import searchengine.dto.statistics.*;
 import searchengine.model.Site;
-import searchengine.repository.LemmaRepository;
-import searchengine.repository.PageRepository;
-import searchengine.repository.SiteRepository;
+import searchengine.repositories.LemmaRepository;
+import searchengine.repositories.PageRepository;
+import searchengine.repositories.SiteRepository;
 import searchengine.services.statistics.StatisticsService;
 
 import java.time.LocalDateTime;
@@ -59,7 +59,8 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     public DetailedStatisticsItem statistics(SiteConfig siteConfig) {
-        Site exists = siteRepository.findByUrl(siteConfig.getUrl()).orElse(null);
+        //Site exists = siteRepository.findByUrl(siteConfig.getUrl()).orElse(null);
+        Site exists = siteRepository.findFirstByUrl(siteConfig.getUrl()).orElse(null);
         DetailedStatisticsItem item = new DetailedStatisticsItem();
 
         if (exists != null) {

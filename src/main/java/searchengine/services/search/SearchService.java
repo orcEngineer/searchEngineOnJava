@@ -16,13 +16,12 @@ import searchengine.exception.IndexingException;
 import searchengine.model.Index;
 import searchengine.model.Lemma;
 import searchengine.model.Page;
-import searchengine.repository.IndexRepository;
-import searchengine.repository.LemmaRepository;
-import searchengine.repository.PageRepository;
+import searchengine.repositories.IndexRepository;
+import searchengine.repositories.LemmaRepository;
+import searchengine.repositories.PageRepository;
 import searchengine.services.lemmatization.LemmaService;
 
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service

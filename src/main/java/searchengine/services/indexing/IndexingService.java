@@ -10,7 +10,7 @@ import searchengine.config.SitesList;
 import searchengine.exception.IndexingException;
 import searchengine.indexing.WebCrawlerTask;
 import searchengine.model.*;
-import searchengine.repository.SiteRepository;
+import searchengine.repositories.SiteRepository;
 import searchengine.services.lemmatization.LemmaService;
 import searchengine.services.siteops.SiteDataService;
 
@@ -91,7 +91,8 @@ public class IndexingService {
         }
         log.info("Indexing finished for: {}", entity.getName());
 
-        Site updated = siteRepository.findByUrl(entity.getUrl()).orElse(entity);
+        Site updated = siteRepository.findFirstByUrl(entity.getUrl()).orElse(entity);
+      //        =  siteRepository.findByUrl(entity.getUrl()).orElse(entity);
         Status finalStatus = updated.getStatus().equals(Status.FAILED) ? Status.FAILED : Status.INDEXED;
         siteDataService.updateStatus(updated, finalStatus);
     }
@@ -124,7 +125,9 @@ public class IndexingService {
             throw new IndexingException(OUTSIDE_CONFIG_FILE);
         }
 
-        Site entity = siteRepository.findByUrl(found.get().getUrl()).orElseThrow();
+    //    Site entity = siteRepository.findByUrl(found.get().getUrl()).orElseThrow();
+        Site entity = siteRepository.findFirstByUrl(url).orElse(null);
+
         String path = url.substring(found.get().getUrl().length());
         if (!path.startsWith("/")) {
             path = "/" + path;

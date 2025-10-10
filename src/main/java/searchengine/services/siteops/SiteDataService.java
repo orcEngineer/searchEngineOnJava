@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import searchengine.config.SiteConfig;
 import searchengine.model.*;
-import searchengine.repository.IndexRepository;
-import searchengine.repository.LemmaRepository;
-import searchengine.repository.PageRepository;
-import searchengine.repository.SiteRepository;
+import searchengine.repositories.IndexRepository;
+import searchengine.repositories.LemmaRepository;
+import searchengine.repositories.PageRepository;
+import searchengine.repositories.SiteRepository;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -50,7 +50,8 @@ public class SiteDataService {
 
     @Transactional
     public void deleteAllBySite(SiteConfig siteConfig) {
-        Site exists = siteRepository.findByUrl(siteConfig.getUrl()).orElse(null);
+        Site exists = siteRepository.findFirstByUrl(siteConfig.getUrl()).orElse(null);
+      //  Site exists = siteRepository.findByUrl(siteConfig.getUrl()).orElse(null);
         if (exists != null) {
             List<Page> pages = pageRepository.findAllBySiteId(exists.getId());
             for (Page page : pages) {
